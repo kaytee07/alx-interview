@@ -8,6 +8,10 @@ def canUnlockAll(boxes):
     """
     unlock all boxes
     """
+    if not boxes:
+        return False
+
+    num_of_boxes = len(boxes)
     visited = set()
 
     def dfs(box_num):
@@ -16,7 +20,8 @@ def canUnlockAll(boxes):
         visited.add(box_num)
 
         for key in boxes[box_num]:
-            dfs(key)
+            if key < num_of_boxes:
+                dfs(key)
 
     dfs(0)
 
