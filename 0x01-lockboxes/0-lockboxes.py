@@ -8,7 +8,7 @@ def canUnlockAll(boxes):
     """
     unlock all boxes
     """
-    if not boxes:
+    if not boxes or len(boxes) == 0:
         return False
 
     num_of_boxes = len(boxes)
