@@ -57,7 +57,9 @@ def main():
             if line_count % 10 == 0:
                 print_stats(total_file_size, status_codes)
     except KeyboardInterrupt:
-        print_stats(total_file_size, status_codes)
+        pass
+
+    print_stats(total_file_size, status_codes)
 
 
 if __name__ == '__main__':
