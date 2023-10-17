@@ -10,10 +10,7 @@ def parse_line(line):
     """
     parse line based on specified format of input
     """
-    format = (
-        r'(\d+\.\d+\.\d+\.\d+) - \[.*\] "GET \/projects\/260 '
-        r'HTTP\/1\.1" (\d+) (\d+)'
-    )
+    format = format = r'(\d+\.\d+\.\d+\.\d+) - \[.*\] "GET \/projects\/260 HTTP\/1\.1" (\d+) (\d+)'
     match = re.match(format, line)
     if match:
         return int(match.group(2)), int(match.group(3))
