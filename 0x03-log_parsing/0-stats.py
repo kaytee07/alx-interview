@@ -10,7 +10,10 @@ def parse_line(line):
     """
     parse line based on specified format of input
     """
-    format = r'(\d+\.\d+\.\d+\.\d+) - \[.*\] "GET \/projects\/260 HTTP\/1\.1" (\d+) (\d+)'
+    format = (
+        r'(\d+\.\d+\.\d+\.\d+) - \[.*\] "GET \/projects\/260 '
+        r'HTTP\/1\.1" (\d+) (\d+)'
+    )
     match = re.match(format, line)
     if match:
         return int(match.group(2)), int(match.group(3))
@@ -32,7 +35,16 @@ def main():
     print status code and number of lines it was found in
     """
     total_file_size = 0
-    status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
+    status_codes = {
+        200: 0,
+        301: 0,
+        400: 0,
+        401: 0,
+        403: 0,
+        404: 0,
+        405: 0,
+        500: 0
+    }
     line_count = 0
 
     try:
@@ -48,9 +60,7 @@ def main():
             if line_count % 10 == 0:
                 print_stats(total_file_size, status_codes)
     except KeyboardInterrupt:
-        pass
-
-    print_stats(total_file_size, status_codes)
+        print_stats(total_file_size, status_codes)
 
 
 if __name__ == '__main__':
