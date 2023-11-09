@@ -1,39 +1,26 @@
 #!/usr/bin/node
 
-var arguments = process.argv;
-if (arguments.length !== 3) return;
 const request = require('request');
+const API_URL = 'https://swapi-api.hbtn.io/api';
 
-async function get_character(characters, index) {
-    if (characters.length === index) return;
+if (process.argv.length > 2) {
+  request(`${API_URL}/films/${process.argv[2]}/`, (err, _, body) => {
+    if (err) {
+      console.log(err);
+    }
+    const charactersURL = JSON.parse(body).characters;
+    const charactersName = charactersURL.map(
+      url => new Promise((resolve, reject) => {
+        request(url, (promiseErr, __, charactersReqBody) => {
+          if (promiseErr) {
+            reject(promiseErr);
+          }
+          resolve(JSON.parse(charactersReqBody).name);
+        });
+      }));
 
-    request(characters[index], function (error, response, body) {
-        if (error) {
-            console.error('Error:', error);
-            return;
-        }
-        try {
-            let to_json = JSON.parse(body);
-            console.log(to_json['name']);
-        } catch (parseError) {
-            console.error('Error parsing JSON:', parseError);
-        }
-        
-        index += 1;
-        get_character(characters, index);
-    });
+    Promise.all(charactersName)
+      .then(names => console.log(names.join('\n')))
+      .catch(allErr => console.log(allErr));
+  });
 }
-
-request(`https://swapi-api.alx-tools.com/api/films/${arguments[2]}`, function (error, response, body) {
-    if (error) {
-        console.error('Error:', error);
-        return;
-    }
-    try {
-        const json = JSON.parse(body);
-        get_character(json['characters'], 0);
-    } catch (parseError) {
-        console.error('Error parsing JSON:', parseError);
-    }
-});
-
