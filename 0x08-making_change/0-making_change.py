@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+change making module
+"""
 
 def makeChange(coins, total):
     """
